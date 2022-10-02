@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/bookListFragment">
+
+    <fragment
+        android:id="@+id/bookListFragment"
+        android:name="com.merttoptas.listviewexample.recylerviewexample.booklist.BookListFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_book_list">
+        <action
+            android:id="@+id/action_bookListFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+
+        <argument
+            android:name="bookModel"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="com.merttoptas.listviewexample.recylerviewexample.detail.BookDetailFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_book_detail" />
+</navigation>
