@@ -1,22 +1,22 @@
 package com.merttoptas.listviewexample.recylerviewexample.booklist
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.merttoptas.listviewexample.R
 import com.merttoptas.listviewexample.data.BookModel
 
 /**
- * Created by merttoptas on 2.10.2022.
+ * Created by merttoptas on 8.10.2022.
  */
 
-class BooksAdapter(
-    private val bookList: MutableList<BookModel>,
-    private val listener: BooksListener
-) :
-    RecyclerView.Adapter<BooksAdapter.BooksViewHolder>() {
+class BooksDiffutilAdapter(private val listener: BooksListener) :
+    ListAdapter<BookModel, BooksDiffutilAdapter.BooksViewHolder>(BooksDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BooksViewHolder {
         val view =
@@ -25,11 +25,20 @@ class BooksAdapter(
     }
 
     override fun onBindViewHolder(holder: BooksViewHolder, position: Int) {
-        holder.bind(bookList[position], listener)
+        holder.bind(getItem(position), listener)
     }
 
-    override fun getItemCount(): Int {
-        return bookList.size
+    class BooksDiffUtil : DiffUtil.ItemCallback<BookModel>() {
+        override fun areItemsTheSame(oldItem: BookModel, newItem: BookModel): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(
+            oldItem: BookModel,
+            newItem: BookModel
+        ): Boolean {
+            return oldItem == newItem
+        }
     }
 
     class BooksViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -48,9 +57,4 @@ class BooksAdapter(
 
         }
     }
-}
-
-interface BooksListener {
-    fun onClicked(book: BookModel)
-    fun onButtonClicked()
 }
